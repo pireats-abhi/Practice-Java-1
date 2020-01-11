@@ -1,0 +1,43 @@
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+public class SecretMessagesGUI extends JPanel {
+	private JTextField textKey;
+	public SecretMessagesGUI() {
+		setLayout(null);
+		
+		JTextArea textIn = new JTextArea();
+		textIn.setBounds(10, 11, 430, 119);
+		add(textIn);
+		
+		JTextArea textOut = new JTextArea();
+		textOut.setBounds(10, 171, 430, 118);
+		add(textOut);
+		
+		JLabel lblNewLabel = new JLabel("KEY:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel.setBounds(177, 141, 46, 14);
+		add(lblNewLabel);
+		
+		textKey = new JTextField();
+		textKey.setBounds(227, 140, 46, 20);
+		add(textKey);
+		textKey.setColumns(10);
+		
+		JButton btnNewButton = new JButton("ENCODE/DECODE");
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton.setBounds(276, 139, 164, 23);
+		add(btnNewButton);
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+}

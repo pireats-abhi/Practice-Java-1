@@ -1,0 +1,89 @@
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SecretMessagesGUI extends JPanel {
+	private JTextField txtKey;
+	private JTextArea txtIn;
+	private JTextArea txtOut;
+
+	public String encode(String message, int k) {
+		String out = "";
+		char key = (char) k;
+
+		for (int x = 0; x < message.length(); x++) {
+
+			char in = message.charAt(x);
+
+			if (in >= 'A' && in <= 'Z') {
+
+				in += key;
+				if (in > 'Z')
+					in -= 26;
+				if (in < 'A')
+					in += 26;
+			}
+			if (in >= 'a' && in <= 'z') {
+
+				in += key;
+				if (in > 'z')
+					in -= 26;
+				if (in < 'a')
+					in += 26;
+			}
+
+			out += in;
+
+		}
+
+		return out;
+	}
+
+	public SecretMessagesGUI() {
+		setLayout(null);
+
+		txtIn = new JTextArea();
+		txtIn.setBounds(10, 11, 430, 119);
+		add(txtIn);
+
+		txtOut = new JTextArea();
+		txtOut.setBounds(10, 171, 430, 118);
+		add(txtOut);
+
+		JLabel lblNewLabel = new JLabel("KEY:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel.setBounds(177, 141, 46, 14);
+		add(lblNewLabel);
+
+		txtKey = new JTextField();
+		txtKey.setBounds(227, 140, 46, 20);
+		add(txtKey);
+		txtKey.setColumns(10);
+
+		JButton btnNewButton = new JButton("ENCODE/DECODE");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String message = txtIn.getText();
+				int key = Integer.parseInt(txtKey.getText());
+				String output = encode(message, key);
+				txtOut.setText(output);
+
+			}
+		});
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNewButton.setBounds(276, 139, 164, 23);
+		add(btnNewButton);
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+}
