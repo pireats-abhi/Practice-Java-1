@@ -18,20 +18,20 @@ public class BubblePanel extends JPanel {
 	private ArrayList<Bubble> bubbleList;
 	private int size = 30;
 	private Timer timer;
-	private final int DELAY = 33; //ms of delay for 30fps
+	private final int DELAY = 33; // ms of delay for 30fps
 
 	public BubblePanel() {
 		bubbleList = new ArrayList<Bubble>();
 		addMouseListener(new BubbleListener());
 		addMouseMotionListener(new BubbleListener());
 		addMouseWheelListener(new BubbleListener());
-		
-		timer = new Timer (DELAY, new BubbleListener());
+
+		timer = new Timer(DELAY, new BubbleListener());
 
 		setBackground(Color.black);
 		setPreferredSize(new Dimension(600, 400));
-		
-		timer.start();
+
+		//timer.start();
 
 	}
 
@@ -59,14 +59,14 @@ public class BubblePanel extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
+			timer.stop();
 			bubbleList.add(new Bubble(e.getX(), e.getY(), size));
 			repaint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
+			timer.start();
 		}
 
 		@Override
@@ -85,28 +85,28 @@ public class BubblePanel extends JPanel {
 		public void mouseDragged(MouseEvent e) {
 			bubbleList.add(new Bubble(e.getX(), e.getY(), size));
 			repaint();
-			
+
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			size -= e.getWheelRotation();
-			
+
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			for(Bubble bubble:bubbleList) {
-				bubble.update();
+			for (Bubble bubble : bubbleList) {
+				bubble.update(bubble.size);
 			}
 			repaint();
-			
+
 		}
 
 	}
@@ -117,16 +117,35 @@ public class BubblePanel extends JPanel {
 		public int y;
 		public int size;
 		public Color color;
+		public int xspeed;
+		public int yspeed;
+		private final int MAX_SPEED = 5;
 
 		public Bubble(int newX, int newY, int newSize) {
 			x = newX;
 			y = newY;
 			size = newSize;
-			color = new Color ((float)Math.random(), (float)Math.random(), (float)Math.random());
+			color = new Color((float) Math.random(), (float) Math.random(), (float) Math.random());
+			xspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
+			yspeed = (int) (Math.random() * MAX_SPEED * 2 - MAX_SPEED);
+
+			if (xspeed == 0 && yspeed == 0) {
+				xspeed = 1;
+				yspeed = 1;
+			}
 		}
-		
-		public void update() {
-			y -= 5; // float each bubble up 5 pixel per frame
+
+		public void update(int s) {
+			x += xspeed;
+			y += yspeed;
+
+			if (x < 0 + (s / 2) || x > getWidth() - (s / 2)) {
+				xspeed = -1 * xspeed;
+			}
+			if (y < 0 + (s / 2) || y > getHeight() - (s / 2)) {
+				yspeed = -yspeed;
+			}
+
 		}
 	}
 
